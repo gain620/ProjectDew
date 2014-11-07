@@ -7,10 +7,13 @@ public class ClickToMove : MonoBehaviour
 	public CharacterController controller;
 	private Vector3 position;
 
+	//Animation related variables
+	public AnimationClip run,idle;
+
 	// Use this for initialization
 	void Start () 
 	{
-		speed = 10;
+		//speed = 5;
 		position = transform.position;
 	}
 	
@@ -41,6 +44,8 @@ public class ClickToMove : MonoBehaviour
 
 	void moveToPosition()
 	{
+
+		//When moving...(run, walk, etc)
 		if(Vector3.Distance(transform.position , position)>1)
 		{
 			Quaternion newRotation = Quaternion.LookRotation (position - transform.position);
@@ -52,6 +57,13 @@ public class ClickToMove : MonoBehaviour
 			transform.rotation = Quaternion.Slerp (transform.rotation, newRotation, Time.deltaTime * 10);
 			
 			controller.SimpleMove (transform.forward * speed);
+			//animation.Play (run.name); doesn't look smooth :(
+			// instead of Play, use CrossFade!!!
+			animation.CrossFade(run.name);
+		}
+		else
+		{
+			animation.CrossFade(idle.name);
 		}
 	}
 }
