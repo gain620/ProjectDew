@@ -10,6 +10,9 @@ public class ClickToMove : MonoBehaviour
 	//Animation related variables
 	public AnimationClip run,idle;
 
+	//to prioritize animations
+	public static bool attack;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -20,14 +23,17 @@ public class ClickToMove : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		//When the left button is clicked...
-		if(Input.GetMouseButton(0))
+		if(!attack)
 		{
-			locatePosition();
-		}
+			//When the left button is clicked...
+			if(Input.GetMouseButton(0))
+			{
+				locatePosition();
+			}
 
-		//Move to the clicked position
-		moveToPosition ();
+			//Move to the clicked position
+			moveToPosition ();
+		}
 	}
 
 	void locatePosition()
@@ -37,8 +43,11 @@ public class ClickToMove : MonoBehaviour
 
 		if(Physics.Raycast(ray,out hit, 1000))
 		{
-			position = new Vector3(hit.point.x,hit.point.y,hit.point.z);
-			Debug.Log (position);
+			// if you don't have this if-statement your character will spin for eternity
+			if(hit.collider.tag != "Player")
+			{
+				position = new Vector3(hit.point.x,hit.point.y,hit.point.z);
+			}
 		}
 	}
 

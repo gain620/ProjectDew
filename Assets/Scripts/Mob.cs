@@ -12,10 +12,12 @@ public class Mob : MonoBehaviour
 
 	public AnimationClip idle,run;
 
+	private int health;
+
 	// Use this for initialization
 	void Start () 
 	{
-	
+		health = 50;
 	}
 	
 	// Update is called once per frame
@@ -31,6 +33,7 @@ public class Mob : MonoBehaviour
 		{
 			animation.CrossFade(idle.name);
 		}
+		Debug.Log (health);
 		
 	}
 
@@ -47,6 +50,16 @@ public class Mob : MonoBehaviour
 
 		// change to the line below for optimization later!~
 		//return Vector3.Distance (transform.position, player.position) < range;
+	}
+
+	public void getHit(int damage)
+	{
+		health -= damage;
+
+		if(health<0)
+		{
+			health = 0;
+		}
 	}
 
 	void chase()
